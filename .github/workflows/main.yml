@@ -18,69 +18,17 @@ jobs:
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@main
         env:
-          SSH_PRIVATE_KEY: ${{-----BEGIN RSA PRIVATE KEY-----
-MIIEpAIBAAKCAQEAsSuEEs+eGKXUCBpiifBJvEfC2WfzYRDsRt88pQ4tmhLk61iX
-mZ96V+vrh+WlCU8w7Vlj5tz084WX12cKFXXECVp13dU2TKLWHE3rJu8In0e3PIUC
-npSleoFbXSU/HzjNvfR54DaXjZ4uh/LOB/hfrZbbd5dVcYQsMkfF3JN9GGvD8zLl
-7PB6AdbzI3bKbQsBme2jMzFMRMLOxXaI/OlwDvHqoRskwVrH1JX7oGB91p9JQUXD
-dLMFrr8KbBfU0IZZYmfXqBvm3uIdannNlF2AAS5yHKC/ZDp8KchtFqwwPAIWJDw9
-8giqawJ8pFZUldFoFyH5zGLHOv4HNfZGJEGLUwIDAQABAoIBADWxsIda8NkbeNUz
-2eVgM5iiTwVAodwrGtCn22NSlrN5QnOpF9jxIkz/LRS0nn3hyDxGuSZAlOQw+sHH
-cqDqXg1PoyUl9xzmxOkzHC9ihkRvobLvxMl212f3SE9EeIrn1kLZkw5GvUuoQwXk
-qlh0B9s+OylVbgnHOvXKFscw09rQXHHN7jpYhXKs581IyQmuW6Xv+Djq3BfpxnPH
-AsJ+hwKkHLj29HWIrWos8W6pDPIHd9/8TaMxbGFQ6m++qKdJbgp3cMORfPkGvhTU
-me67NAuXU00m+boMsuLKNvQeETlukw3Iw7+vsiHCm8C0Mw6XMQMG4Vvf0EZ3ZxbK
-uxTSm5ECgYEA7O+HuoaQOxkV0M8jZvCD4/JM66Je/GfWVn2XxLqdcmmgNO8dr8YQ
-pv+2NXUbJpGy3JaQrydgJdhGGdKh1eRhzG0GTtuFWO/kKEoyrzeQ6jR6WQrzMIcX
-E/VNkITufmihyBvX3joJqJJiPIQnnqsxxfJjo2EQ13E5+GudkQdlyrcCgYEAv2zq
-Mi0JTLXxEyTPP0M0oqOV6gBmZI16X07JGzbPIRNF6WRMuzhRIKp3BJUVMWM7pB8/
-LRtaQJkuhbdFlG9Mq23mMntb2euKnPIMnmjmbis2mYovmJg6hIqdiUA+dqwEF1PY
-o1qixr6bSBmVfXPpzSn6UVTNBijj7MlyVRH1WEUCgYEA5XWQQA9DrUg8/W0tfurd
-ACvPXMByNwWk6TxWd/q2snAi7EDKwkkSJXkuEBVqhu7Bhqn2UvrSPbR3J1j6zDeS
-kzTe0A3+1UP19SLudQxeNsM93fAh1tRtgDGnvZdPlXJlg3ObmqcgZXXm126xJBPt
-byOwZTCC6/LGzpQCE8tTRH8CgYEAmGQPiURbK+uH8LKUHovVAkjylqgc253ZtrgU
-14ppmK4sMOI9R6pMw5GRUF+S0I9sMnsBo1osHlMUOzUsuj9krPC/mp6j/7dI0SrM
-qutdzoSuYcslmvhNVai4Q0SWtYi5dQy14U3NWiTxn5Nmc8nsbf0mHstAsM+qq52v
-XFQAmnUCgYAxZaD186cgTKmAh6TpnM+EYha5X7G/R5gCHLOBLpQGFtSWOvirJQGA
-tXordR8ipFaDLYhdTlboQkJqSUTvnYrUIUvXDqJ6lRcW28SmJwASRnbFe9g5eMzI
-j4NWvrFzNp89tjAirnJyoTkizxqPGuNPCI+eYxeqBgdyb4VQMbJYrA==
------END RSA PRIVATE KEY----- }}
-          REMOTE_HOST: ${{ ec2-18-227-52-15.us-east-2.compute.amazonaws.com }}
-          REMOTE_USER: ${{ ubuntu}}
-          TARGET: ${{ home}}
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.TARGET_DIR }}
 
       - name: Executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ec2-18-227-52-15.us-east-2.compute.amazonaws.com   }}
-          username: ${{ ubuntu}}
-          key: ${{ -----BEGIN RSA PRIVATE KEY-----
-MIIEpAIBAAKCAQEAsSuEEs+eGKXUCBpiifBJvEfC2WfzYRDsRt88pQ4tmhLk61iX
-mZ96V+vrh+WlCU8w7Vlj5tz084WX12cKFXXECVp13dU2TKLWHE3rJu8In0e3PIUC
-npSleoFbXSU/HzjNvfR54DaXjZ4uh/LOB/hfrZbbd5dVcYQsMkfF3JN9GGvD8zLl
-7PB6AdbzI3bKbQsBme2jMzFMRMLOxXaI/OlwDvHqoRskwVrH1JX7oGB91p9JQUXD
-dLMFrr8KbBfU0IZZYmfXqBvm3uIdannNlF2AAS5yHKC/ZDp8KchtFqwwPAIWJDw9
-8giqawJ8pFZUldFoFyH5zGLHOv4HNfZGJEGLUwIDAQABAoIBADWxsIda8NkbeNUz
-2eVgM5iiTwVAodwrGtCn22NSlrN5QnOpF9jxIkz/LRS0nn3hyDxGuSZAlOQw+sHH
-cqDqXg1PoyUl9xzmxOkzHC9ihkRvobLvxMl212f3SE9EeIrn1kLZkw5GvUuoQwXk
-qlh0B9s+OylVbgnHOvXKFscw09rQXHHN7jpYhXKs581IyQmuW6Xv+Djq3BfpxnPH
-AsJ+hwKkHLj29HWIrWos8W6pDPIHd9/8TaMxbGFQ6m++qKdJbgp3cMORfPkGvhTU
-me67NAuXU00m+boMsuLKNvQeETlukw3Iw7+vsiHCm8C0Mw6XMQMG4Vvf0EZ3ZxbK
-uxTSm5ECgYEA7O+HuoaQOxkV0M8jZvCD4/JM66Je/GfWVn2XxLqdcmmgNO8dr8YQ
-pv+2NXUbJpGy3JaQrydgJdhGGdKh1eRhzG0GTtuFWO/kKEoyrzeQ6jR6WQrzMIcX
-E/VNkITufmihyBvX3joJqJJiPIQnnqsxxfJjo2EQ13E5+GudkQdlyrcCgYEAv2zq
-Mi0JTLXxEyTPP0M0oqOV6gBmZI16X07JGzbPIRNF6WRMuzhRIKp3BJUVMWM7pB8/
-LRtaQJkuhbdFlG9Mq23mMntb2euKnPIMnmjmbis2mYovmJg6hIqdiUA+dqwEF1PY
-o1qixr6bSBmVfXPpzSn6UVTNBijj7MlyVRH1WEUCgYEA5XWQQA9DrUg8/W0tfurd
-ACvPXMByNwWk6TxWd/q2snAi7EDKwkkSJXkuEBVqhu7Bhqn2UvrSPbR3J1j6zDeS
-kzTe0A3+1UP19SLudQxeNsM93fAh1tRtgDGnvZdPlXJlg3ObmqcgZXXm126xJBPt
-byOwZTCC6/LGzpQCE8tTRH8CgYEAmGQPiURbK+uH8LKUHovVAkjylqgc253ZtrgU
-14ppmK4sMOI9R6pMw5GRUF+S0I9sMnsBo1osHlMUOzUsuj9krPC/mp6j/7dI0SrM
-qutdzoSuYcslmvhNVai4Q0SWtYi5dQy14U3NWiTxn5Nmc8nsbf0mHstAsM+qq52v
-XFQAmnUCgYAxZaD186cgTKmAh6TpnM+EYha5X7G/R5gCHLOBLpQGFtSWOvirJQGA
-tXordR8ipFaDLYhdTlboQkJqSUTvnYrUIUvXDqJ6lRcW28SmJwASRnbFe9g5eMzI
-j4NWvrFzNp89tjAirnJyoTkizxqPGuNPCI+eYxeqBgdyb4VQMbJYrA==
------END RSA PRIVATE KEY----- }}
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             sudo apt-get -y update
             sudo apt-get install -y apache2
