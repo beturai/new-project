@@ -4,7 +4,7 @@ pipeline {
     environment {
         GIT_CREDENTIAL      = 'github_id'
         IMAGE_NAME          = 'rablo_backend_image'
-        DOCKER_FILE_PATH    = ''
+        DOCKER_FILE_PATH    = 'backend'
         CONTAINER_NAME      = 'rablo_backend_cont'
         PORT_NUMBER         = '6500:6500'
     }
