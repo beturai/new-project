@@ -20,7 +20,7 @@ pipeline {
             steps {
                 git branch: 'main',
                 credentialsId: "${GIT_CREDENTIAL}",
-                url: 'https://github.com/RabloApp/Rablo_FrontEnd.git'
+                url: 'https://github.com/RabloApp/Rablo_backEnd.git'
             }
         }
 
