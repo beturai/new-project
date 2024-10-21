@@ -1,0 +1,66 @@
+pipeline {
+    agent any  // Run on any available node (you can change this to 'master' if needed)
+
+    environment {
+        GIT_CREDENTIAL      = 'github_id'
+        IMAGE_NAME          = 'rablo_backend_image'
+        DOCKER_FILE_PATH    = ''
+        CONTAINER_NAME      = 'rablo_backend_cont'
+        PORT_NUMBER         = '6500:6500'
+    }
+
+    stages {
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage('Git Checkout Pvt Repo') {
+            steps {
+                git branch: 'main',
+                credentialsId: "${GIT_CREDENTIAL}",
+                url: 'https://github.com/RabloApp/Rablo_FrontEnd.git'
+            }
+        }
+
+        stage('Containerization Part') {
+            steps {
+                script {
+                    // Check if container exists and remove it if necessary
+                    def containerExists = sh(script: "docker ps -a -q -f name=${CONTAINER_NAME}", returnStdout: true).trim()
+                    
+                    if (containerExists) {
+                        echo 'Removing existing container...'
+                        sh "docker stop ${CONTAINER_NAME} || true"  // Stop the container if it's running
+                        sh "docker rm ${CONTAINER_NAME} || true"    // Remove the existing container
+                    }
+
+                    // Remove the old image if it exists
+                    def imageExists = sh(script: "docker images -q ${IMAGE_NAME}", returnStdout: true).trim()
+                    
+                    if (imageExists) {
+                        echo 'Removing existing image...'
+                        sh "docker rmi ${IMAGE_NAME} || true"
+                    }
+
+                    // Build the new Docker image
+                    dir("${DOCKER_FILE_PATH}") {
+                        echo "Building Docker image in ${DOCKER_FILE_PATH}"
+                        sh "docker build -t ${IMAGE_NAME} ."
+                    }
+
+                    // Run the new container
+                    sh "docker run -d --name ${CONTAINER_NAME} -p ${PORT_NUMBER} ${IMAGE_NAME}"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Cleaning up unused Docker resources'
+            sh 'docker system prune -f'
+        }
+    }
+}
